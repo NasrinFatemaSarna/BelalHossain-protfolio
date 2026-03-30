@@ -20,7 +20,7 @@ menuBtn.addEventListener('click', (e) => {
 
 // Close menu when a link is clicked
 navLinks.forEach(link => {
-  link.addEventListener('click', () => {
+  link.addEventListener('click', () => 
     navMenu.classList.remove('mobile-nav-active');
     socialIcons.classList.remove('mobile-nav-active');
     navMenu.style.display = '';
