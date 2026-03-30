@@ -1,7 +1,7 @@
 // ========== MOBILE MENU TOGGLE ==========
 const menuBtn = document.getElementById('menuToggle');
 const navMenu = document.getElementById('navMenu');
-const socialIcons = document.getElementById('socialIcons');
+const socialIcons = document.querySelector('.social-icons'); // Changed to querySelector
 const navLinks = document.querySelectorAll('nav a');
 
 // Check if elements exist before adding event listeners
@@ -10,14 +10,19 @@ if (menuBtn && navMenu && socialIcons) {
   menuBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     navMenu.classList.toggle('mobile-nav-active');
-    socialIcons.classList.toggle('mobile-nav-active');
+    socialIcons.classList.toggle('mobile-social-active');
     
     if (navMenu.classList.contains('mobile-nav-active')) {
       navMenu.style.display = 'flex';
       socialIcons.style.display = 'flex';
+      // Add animation class
+      navMenu.style.animation = 'slideIn 0.3s ease-out';
+      socialIcons.style.animation = 'fadeIn 0.3s ease-out';
     } else {
       navMenu.style.display = '';
       socialIcons.style.display = '';
+      navMenu.style.animation = '';
+      socialIcons.style.animation = '';
     }
   });
 
@@ -25,7 +30,7 @@ if (menuBtn && navMenu && socialIcons) {
   navLinks.forEach(link => {
     link.addEventListener('click', () => {
       navMenu.classList.remove('mobile-nav-active');
-      socialIcons.classList.remove('mobile-nav-active');
+      socialIcons.classList.remove('mobile-social-active');
       navMenu.style.display = '';
       socialIcons.style.display = '';
     });
@@ -34,10 +39,12 @@ if (menuBtn && navMenu && socialIcons) {
   // Close menu if clicking outside
   document.addEventListener('click', (e) => {
     if (window.innerWidth <= 850) {
-      const isClickInsideMenu = navMenu.contains(e.target) || menuBtn.contains(e.target);
+      const isClickInsideMenu = navMenu.contains(e.target) || 
+                                socialIcons.contains(e.target) || 
+                                menuBtn.contains(e.target);
       if (!isClickInsideMenu && navMenu.classList.contains('mobile-nav-active')) {
         navMenu.classList.remove('mobile-nav-active');
-        socialIcons.classList.remove('mobile-nav-active');
+        socialIcons.classList.remove('mobile-social-active');
         navMenu.style.display = '';
         socialIcons.style.display = '';
       }
@@ -48,9 +55,18 @@ if (menuBtn && navMenu && socialIcons) {
   window.addEventListener('resize', () => {
     if (window.innerWidth > 850) {
       navMenu.classList.remove('mobile-nav-active');
-      socialIcons.classList.remove('mobile-nav-active');
+      socialIcons.classList.remove('mobile-social-active');
       navMenu.style.display = '';
       socialIcons.style.display = '';
+      // Reset to desktop layout
+      navMenu.style.animation = '';
+      socialIcons.style.animation = '';
+    } else {
+      // Ensure mobile layout is correct
+      if (!navMenu.classList.contains('mobile-nav-active')) {
+        navMenu.style.display = '';
+        socialIcons.style.display = '';
+      }
     }
   });
 }
@@ -97,6 +113,8 @@ if (filterBtns.length > 0 && portfolioCards.length > 0) {
         const cardCategory = card.getAttribute('data-category');
         if (filterVal === 'all' || cardCategory === filterVal) {
           card.style.display = 'block';
+          // Add fade in animation
+          card.style.animation = 'fadeInUp 0.5s ease-out';
         } else {
           card.style.display = 'none';
         }
@@ -133,6 +151,14 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     const targetElement = document.querySelector(targetId);
     if (targetElement) {
       e.preventDefault();
+      // Close mobile menu if open
+      if (navMenu && navMenu.classList.contains('mobile-nav-active')) {
+        navMenu.classList.remove('mobile-nav-active');
+        if (socialIcons) socialIcons.classList.remove('mobile-social-active');
+        if (navMenu) navMenu.style.display = '';
+        if (socialIcons) socialIcons.style.display = '';
+      }
+      
       targetElement.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
