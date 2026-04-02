@@ -1,168 +1,262 @@
-// ========== MOBILE MENU TOGGLE ==========
-const menuBtn = document.getElementById('menuToggle');
-const navMenu = document.getElementById('navMenu');
-const socialIcons = document.querySelector('.social-icons'); // Changed to querySelector
-const navLinks = document.querySelectorAll('nav a');
+// ========== MOBILE MENU ==========
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
 
-// Check if elements exist before adding event listeners
-if (menuBtn && navMenu && socialIcons) {
-  // Toggle menu on button click
-  menuBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    navMenu.classList.toggle('mobile-nav-active');
-    socialIcons.classList.toggle('mobile-social-active');
-    
-    if (navMenu.classList.contains('mobile-nav-active')) {
-      navMenu.style.display = 'flex';
-      socialIcons.style.display = 'flex';
-      // Add animation class
-      navMenu.style.animation = 'slideIn 0.3s ease-out';
-      socialIcons.style.animation = 'fadeIn 0.3s ease-out';
-    } else {
-      navMenu.style.display = '';
-      socialIcons.style.display = '';
-      navMenu.style.animation = '';
-      socialIcons.style.animation = '';
-    }
-  });
-
-  // Close menu when a link is clicked
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      navMenu.classList.remove('mobile-nav-active');
-      socialIcons.classList.remove('mobile-social-active');
-      navMenu.style.display = '';
-      socialIcons.style.display = '';
-    });
-  });
-
-  // Close menu if clicking outside
-  document.addEventListener('click', (e) => {
-    if (window.innerWidth <= 850) {
-      const isClickInsideMenu = navMenu.contains(e.target) || 
-                                socialIcons.contains(e.target) || 
-                                menuBtn.contains(e.target);
-      if (!isClickInsideMenu && navMenu.classList.contains('mobile-nav-active')) {
-        navMenu.classList.remove('mobile-nav-active');
-        socialIcons.classList.remove('mobile-social-active');
-        navMenu.style.display = '';
-        socialIcons.style.display = '';
-      }
-    }
-  });
-
-  // Reset menu on window resize
-  window.addEventListener('resize', () => {
-    if (window.innerWidth > 850) {
-      navMenu.classList.remove('mobile-nav-active');
-      socialIcons.classList.remove('mobile-social-active');
-      navMenu.style.display = '';
-      socialIcons.style.display = '';
-      // Reset to desktop layout
-      navMenu.style.animation = '';
-      socialIcons.style.animation = '';
-    } else {
-      // Ensure mobile layout is correct
-      if (!navMenu.classList.contains('mobile-nav-active')) {
-        navMenu.style.display = '';
-        socialIcons.style.display = '';
-      }
-    }
+if (menuToggle && navMenu) {
+  menuToggle.addEventListener("click", () => {
+    navMenu.classList.toggle("active");
   });
 }
+
+document.querySelectorAll("#navMenu a").forEach((link) => {
+  link.addEventListener("click", () => {
+    navMenu.classList.remove("active");
+  });
+});
+
+// ========== SMOOTH SCROLL ==========
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener("click", function (e) {
+    const targetId = this.getAttribute("href");
+    if (targetId === "#") return;
+
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      e.preventDefault();
+      targetElement.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  });
+});
 
 // ========== SKILL BARS ANIMATION ==========
 function startSkills() {
-  const progressBars = document.querySelectorAll('.progress-fill');
-  
-  progressBars.forEach(bar => {
-    const width = bar.getAttribute('data-width');
-    if (width && !bar.style.width) {
-      bar.style.width = width + '%';
+  const progressBars = document.querySelectorAll(".progress-fill");
+
+  progressBars.forEach((bar) => {
+    const width = bar.getAttribute("data-width");
+    if (width) {
+      bar.style.width = width + "%";
     }
   });
 }
 
-const skillSection = document.getElementById('skills');
+const skillSection = document.getElementById("skills");
 if (skillSection) {
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
         startSkills();
         observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.2 });
-  
+
   observer.observe(skillSection);
 }
 
-// ========== PORTFOLIO FILTERING ==========
-const filterBtns = document.querySelectorAll('.filter-btn');
-const portfolioCards = document.querySelectorAll('.portfolio-card');
+// ========== DYNAMIC PORTFOLIO ==========
+const portfolioItems = [
+  {
+    title: "GCC Workforce Portal",
+    description: "End-to-end manpower deployment platform for hospitality and service-sector recruitment.",
+    category: "web",
+    icon: "fas fa-laptop-code"
+  },
+  {
+    title: "Staffing CRM App",
+    description: "A mobile-focused HR solution for candidate tracking, communication, and faster hiring workflows.",
+    category: "app",
+    icon: "fas fa-mobile-alt"
+  },
+  {
+    title: "Analytics Dashboard",
+    description: "Visual KPI and compliance dashboard for monitoring recruitment, placement, and client activity.",
+    category: "ui",
+    icon: "fas fa-chart-pie"
+  },
+  {
+    title: "Partner Management System",
+    description: "A platform to maintain overseas partner communication, records, and manpower demand updates.",
+    category: "web",
+    icon: "fas fa-globe"
+  },
+  {
+    title: "Recruitment Workflow App",
+    description: "Smart process solution for applicant screening, shortlisting, and manpower documentation.",
+    category: "app",
+    icon: "fas fa-users"
+  },
+  {
+    title: "Executive Strategy Panel",
+    description: "A leadership dashboard to review global partners, placement targets, and service growth.",
+    category: "ui",
+    icon: "fas fa-chart-line"
+  }
+];
 
-if (filterBtns.length > 0 && portfolioCards.length > 0) {
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const filterVal = btn.getAttribute('data-filter');
-      
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      
-      portfolioCards.forEach(card => {
-        const cardCategory = card.getAttribute('data-category');
-        if (filterVal === 'all' || cardCategory === filterVal) {
-          card.style.display = 'block';
-          // Add fade in animation
-          card.style.animation = 'fadeInUp 0.5s ease-out';
-        } else {
-          card.style.display = 'none';
-        }
-      });
+const portfolioGrid = document.getElementById("portfolioGrid");
+const filterButtons = document.querySelectorAll(".filter-btn");
+
+function getCategoryLabel(category) {
+  switch (category) {
+    case "web":
+      return "Manpower Platform";
+    case "app":
+      return "HR Solution";
+    case "ui":
+      return "Strategy Dashboard";
+    default:
+      return "Project";
+  }
+}
+
+function renderPortfolio(filter = "all") {
+  if (!portfolioGrid) return;
+
+  const filteredItems =
+    filter === "all"
+      ? portfolioItems
+      : portfolioItems.filter((item) => item.category === filter);
+
+  portfolioGrid.innerHTML = filteredItems
+    .map(
+      (item) => `
+        <div class="portfolio-card" data-category="${item.category}">
+          <div class="portfolio-img">
+            <i class="${item.icon}"></i>
+          </div>
+          <div class="portfolio-info">
+            <h3>${item.title}</h3>
+            <p>${item.description}</p>
+            <span class="portfolio-tag">${getCategoryLabel(item.category)}</span>
+          </div>
+        </div>
+      `
+    )
+    .join("");
+
+  attachPortfolioEvents(filteredItems);
+}
+
+if (filterButtons.length > 0) {
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      filterButtons.forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+
+      const filter = button.dataset.filter;
+
+      if (portfolioGrid) {
+        portfolioGrid.style.opacity = "0";
+        portfolioGrid.style.transform = "translateY(10px)";
+
+        setTimeout(() => {
+          renderPortfolio(filter);
+          portfolioGrid.style.opacity = "1";
+          portfolioGrid.style.transform = "translateY(0)";
+        }, 250);
+      }
     });
   });
 }
 
-// ========== CONTACT FORM ==========
-const form = document.getElementById('contactForm');
-if (form) {
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    alert(`📧 Thank you! Belal Hossain will reply within 24 hours.\n📞 For urgent: +8801827843758`);
-    form.reset();
+// ========== PORTFOLIO MODAL ==========
+const portfolioModal = document.getElementById("portfolioModal");
+const modalClose = document.getElementById("modalClose");
+const modalTitle = document.getElementById("modalTitle");
+const modalDescription = document.getElementById("modalDescription");
+const modalCategory = document.getElementById("modalCategory");
+const modalIcon = document.getElementById("modalIcon");
+
+function attachPortfolioEvents(items) {
+  const cards = document.querySelectorAll(".portfolio-card");
+
+  cards.forEach((card, index) => {
+    card.addEventListener("click", () => {
+      const item = items[index];
+      openModal(item);
+    });
   });
 }
 
-// ========== DOWNLOAD CV ==========
-const cvBtn = document.getElementById('downloadCvBtn');
-if (cvBtn) {
-  cvBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    alert("📄 Belal Hossain's detailed CV / portfolio will be shared. Connect on LinkedIn for direct access.");
-  });
+function openModal(item) {
+  if (!portfolioModal || !modalTitle || !modalDescription || !modalCategory || !modalIcon) return;
+
+  modalTitle.textContent = item.title;
+  modalDescription.textContent = item.description;
+  modalCategory.textContent = getCategoryLabel(item.category);
+  modalIcon.innerHTML = `<i class="${item.icon}"></i>`;
+  portfolioModal.classList.add("show");
+  document.body.style.overflow = "hidden";
 }
 
-// Optional: Add smooth scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    const targetId = this.getAttribute('href');
-    if (targetId === '#') return;
-    
-    const targetElement = document.querySelector(targetId);
-    if (targetElement) {
-      e.preventDefault();
-      // Close mobile menu if open
-      if (navMenu && navMenu.classList.contains('mobile-nav-active')) {
-        navMenu.classList.remove('mobile-nav-active');
-        if (socialIcons) socialIcons.classList.remove('mobile-social-active');
-        if (navMenu) navMenu.style.display = '';
-        if (socialIcons) socialIcons.style.display = '';
-      }
-      
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+function closeModal() {
+  if (!portfolioModal) return;
+  portfolioModal.classList.remove("show");
+  document.body.style.overflow = "";
+}
+
+if (modalClose) {
+  modalClose.addEventListener("click", closeModal);
+}
+
+if (portfolioModal) {
+  portfolioModal.addEventListener("click", (e) => {
+    if (e.target === portfolioModal) {
+      closeModal();
     }
   });
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeModal();
+  }
 });
+
+// ========== WHATSAPP CONTACT FORM ==========
+const contactForm = document.getElementById("contactForm");
+
+if (contactForm) {
+  contactForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name")?.value.trim() || "";
+    const email = document.getElementById("email")?.value.trim() || "";
+    const phone = document.getElementById("phone")?.value.trim() || "";
+    const subject = document.getElementById("subject")?.value.trim() || "";
+    const message = document.getElementById("message")?.value.trim() || "";
+
+    const whatsappNumber = "8801827843758";
+
+    const text = `Hello Belal Hossain,
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Subject: ${subject}
+
+Message:
+${message}`;
+
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+    window.open(url, "_blank");
+
+    contactForm.reset();
+  });
+}
+
+// ========== OPTIONAL CV BUTTON ALERT ==========
+const downloadCvBtn = document.getElementById("downloadCvBtn");
+
+if (downloadCvBtn) {
+  downloadCvBtn.addEventListener("click", () => {
+    console.log("CV download button clicked");
+  });
+}
+
+// ========== INITIAL LOAD ==========
+renderPortfolio();
