@@ -1,39 +1,55 @@
-/* MOBILE MENU */
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
 
 if (menuToggle && navMenu) {
   menuToggle.addEventListener("click", () => {
-    navMenu.classList.toggle("show");
+    navMenu.classList.toggle("active");
+  });
+
+  document.querySelectorAll(".nav-menu a").forEach((link) => {
+    link.addEventListener("click", () => {
+      navMenu.classList.remove("active");
+    });
   });
 }
 
-/* SKILL BAR ANIMATION */
-const skillBars = document.querySelectorAll(".skill-fill");
+const sections = document.querySelectorAll("section[id]");
+const navLinks = document.querySelectorAll(".nav-menu a");
 
-const skillObserver = new IntersectionObserver((entries, observer) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      const width = entry.target.getAttribute("data-w");
-      entry.target.style.width = width + "%";
-      observer.unobserve(entry.target);
+function setActiveMenu() {
+  let current = "";
+
+  sections.forEach((section) => {
+    const sectionTop = section.offsetTop - 140;
+    const sectionHeight = section.offsetHeight;
+
+    if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+      current = section.getAttribute("id");
     }
   });
-}, { threshold: 0.4 });
 
-skillBars.forEach((bar) => skillObserver.observe(bar));
+  navLinks.forEach((link) => {
+    link.classList.remove("active");
+    if (link.getAttribute("href") === `#${current}`) {
+      link.classList.add("active");
+    }
+  });
+}
 
-/* COUNTER ANIMATION */
+window.addEventListener("scroll", setActiveMenu);
+setActiveMenu();
+
 const counters = document.querySelectorAll(".counter-number");
 
 function animateCounter(counter) {
-  const target = +counter.getAttribute("data-target");
+  const target = Number(counter.getAttribute("data-target"));
   const suffix = counter.getAttribute("data-suffix") || "";
   let current = 0;
-  const increment = Math.max(1, Math.floor(target / 120));
+  const increment = Math.max(1, Math.ceil(target / 100));
 
   function update() {
     current += increment;
+
     if (current >= target) {
       counter.textContent = target.toLocaleString() + suffix;
     } else {
@@ -45,160 +61,42 @@ function animateCounter(counter) {
   update();
 }
 
-const counterObserver = new IntersectionObserver((entries, observer) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      animateCounter(entry.target);
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.45 });
-
-counters.forEach((counter) => counterObserver.observe(counter));
-
-/* OPTIONAL NAME RE-ANIMATION */
-const heroName = document.querySelector(".hero-name");
-
-if (heroName) {
-  setInterval(() => {
-    const letters = heroName.querySelectorAll(".name-word > span");
-    letters.forEach((letter) => {
-      letter.style.animation = "none";
-      void letter.offsetWidth;
-      letter.style.animation = "";
+const counterObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
+      }
     });
-  }, 7000);
-}
-
-/* PORTFOLIO DATA */
-const portfolioData = [
-  {
-    title: "GCC Workforce Portal",
-    desc: "Easy-to-use manpower deployment platform for hospitality and service-sector recruitment.",
-    category: "platform",
-    label: "Manpower Platform",
-    icon: "fas fa-laptop-code"
   },
-  {
-    title: "Staffing CRM App",
-    desc: "A mobile-focused HR platform for candidate tracking, communication, and faster hiring workflows.",
-    category: "hr",
-    label: "HR Solution",
-    icon: "fas fa-mobile-screen-button"
-  },
-  {
-    title: "Analytics Dashboard",
-    desc: "Visual KPI tool combining workforce flow, recruitment cost control, and client analytics.",
-    category: "strategy",
-    label: "Strategy Dashboard",
-    icon: "fas fa-chart-pie"
-  },
-  {
-    title: "Partner Management System",
-    desc: "A platform to maintain overseas partner communication, records, and manpower demand updates.",
-    category: "platform",
-    label: "Manpower Platform",
-    icon: "fas fa-globe"
-  },
-  {
-    title: "Recruitment Workflow App",
-    desc: "Smart process solution for applicant screening, shortlisting, and manpower documentation.",
-    category: "hr",
-    label: "HR Solution",
-    icon: "fas fa-users"
-  },
-  {
-    title: "Executive Strategy Panel",
-    desc: "A leadership dashboard to review global partners, placement targets, and service growth.",
-    category: "strategy",
-    label: "Strategy Dashboard",
-    icon: "fas fa-chart-line"
-  }
-];
+  { threshold: 0.4 }
+);
 
-const portGrid = document.getElementById("portGrid");
-const filterButtons = document.querySelectorAll(".flt-btn");
-
-function getFilteredPortfolio() {
-  const activeButton = document.querySelector(".flt-btn.active");
-  const activeFilter = activeButton ? activeButton.getAttribute("data-filter") : "all";
-  return activeFilter === "all"
-    ? portfolioData
-    : portfolioData.filter(item => item.category === activeFilter);
-}
-
-function renderPortfolio(filter = "all") {
-  if (!portGrid) return;
-
-  const filtered = filter === "all"
-    ? portfolioData
-    : portfolioData.filter(item => item.category === filter);
-
-  portGrid.innerHTML = filtered.map(item => `
-    <div class="port-card" data-category="${item.category}">
-      <div class="port-icon"><i class="${item.icon}"></i></div>
-      <div class="port-body">
-        <h3>${item.title}</h3>
-        <p>${item.desc}</p>
-        <span>${item.label}</span>
-      </div>
-    </div>
-  `).join("");
-
-  attachCardClicks();
-}
-
-filterButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    filterButtons.forEach(btn => btn.classList.remove("active"));
-    button.classList.add("active");
-    renderPortfolio(button.getAttribute("data-filter"));
-  });
+counters.forEach((counter) => {
+  counterObserver.observe(counter);
 });
 
-renderPortfolio();
+const revealCards = document.querySelectorAll(".reveal-card");
 
-/* PORTFOLIO MODAL */
-const modal = document.getElementById("portModal");
-const modalClose = document.getElementById("modalClose");
-const mIcon = document.getElementById("mIcon");
-const mTitle = document.getElementById("mTitle");
-const mDesc = document.getElementById("mDesc");
-const mCat = document.getElementById("mCat");
-
-function attachCardClicks() {
-  const cards = document.querySelectorAll(".port-card");
-  const activeItems = getFilteredPortfolio();
-
-  cards.forEach((card, index) => {
-    card.addEventListener("click", () => {
-      const item = activeItems[index];
-      if (!item) return;
-
-      mIcon.innerHTML = `<i class="${item.icon}"></i>`;
-      mTitle.textContent = item.title;
-      mDesc.textContent = item.desc;
-      mCat.textContent = item.label;
-      modal.classList.add("show");
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add("visible");
+        }, index * 100);
+        revealObserver.unobserve(entry.target);
+      }
     });
-  });
-}
+  },
+  { threshold: 0.15 }
+);
 
-if (modalClose) {
-  modalClose.addEventListener("click", () => {
-    modal.classList.remove("show");
-  });
-}
+revealCards.forEach((card) => {
+  revealObserver.observe(card);
+});
 
-if (modal) {
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      modal.classList.remove("show");
-    }
-  });
-}
-
-/* WHATSAPP FORM */
 const contactForm = document.getElementById("contactForm");
 
 if (contactForm) {
@@ -213,14 +111,15 @@ if (contactForm) {
 
     const whatsappNumber = "8801827843758";
 
-    const whatsappText =
-      `Name: ${name}%0A` +
-      `Email: ${email}%0A` +
-      `Phone: ${phone}%0A` +
-      `Subject: ${subject}%0A` +
+    const text =
+      `Hello Belal Hossain,\n\n` +
+      `Name: ${name}\n` +
+      `Email: ${email}\n` +
+      `Phone: ${phone}\n` +
+      `Subject: ${subject}\n` +
       `Message: ${message}`;
 
-    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${whatsappText}`;
-    window.open(whatsappURL, "_blank");
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+    window.open(url, "_blank");
   });
 }
