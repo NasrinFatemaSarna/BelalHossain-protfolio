@@ -1,262 +1,226 @@
-// ========== MOBILE MENU ==========
+/* MOBILE MENU */
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
 
 if (menuToggle && navMenu) {
   menuToggle.addEventListener("click", () => {
-    navMenu.classList.toggle("active");
+    navMenu.classList.toggle("show");
   });
 }
 
-document.querySelectorAll("#navMenu a").forEach((link) => {
-  link.addEventListener("click", () => {
-    navMenu.classList.remove("active");
-  });
-});
+/* SKILL BAR ANIMATION */
+const skillBars = document.querySelectorAll(".skill-fill");
 
-// ========== SMOOTH SCROLL ==========
-document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-  anchor.addEventListener("click", function (e) {
-    const targetId = this.getAttribute("href");
-    if (targetId === "#") return;
-
-    const targetElement = document.querySelector(targetId);
-    if (targetElement) {
-      e.preventDefault();
-      targetElement.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+const skillObserver = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const width = entry.target.getAttribute("data-w");
+      entry.target.style.width = width + "%";
+      observer.unobserve(entry.target);
     }
   });
-});
+}, { threshold: 0.4 });
 
-// ========== SKILL BARS ANIMATION ==========
-function startSkills() {
-  const progressBars = document.querySelectorAll(".progress-fill");
+skillBars.forEach((bar) => skillObserver.observe(bar));
 
-  progressBars.forEach((bar) => {
-    const width = bar.getAttribute("data-width");
-    if (width) {
-      bar.style.width = width + "%";
+/* COUNTER ANIMATION */
+const counters = document.querySelectorAll(".counter-number");
+
+function animateCounter(counter) {
+  const target = +counter.getAttribute("data-target");
+  const suffix = counter.getAttribute("data-suffix") || "";
+  let current = 0;
+  const increment = Math.max(1, Math.floor(target / 120));
+
+  function update() {
+    current += increment;
+    if (current >= target) {
+      counter.textContent = target.toLocaleString() + suffix;
+    } else {
+      counter.textContent = current.toLocaleString() + suffix;
+      requestAnimationFrame(update);
     }
-  });
+  }
+
+  update();
 }
 
-const skillSection = document.getElementById("skills");
-if (skillSection) {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        startSkills();
-        observer.unobserve(entry.target);
-      }
+const counterObserver = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.45 });
+
+counters.forEach((counter) => counterObserver.observe(counter));
+
+/* OPTIONAL NAME RE-ANIMATION */
+const heroName = document.querySelector(".hero-name");
+
+if (heroName) {
+  setInterval(() => {
+    const letters = heroName.querySelectorAll(".name-word > span");
+    letters.forEach((letter) => {
+      letter.style.animation = "none";
+      void letter.offsetWidth;
+      letter.style.animation = "";
     });
-  }, { threshold: 0.2 });
-
-  observer.observe(skillSection);
+  }, 7000);
 }
 
-// ========== DYNAMIC PORTFOLIO ==========
-const portfolioItems = [
+/* PORTFOLIO DATA */
+const portfolioData = [
   {
     title: "GCC Workforce Portal",
-    description: "End-to-end manpower deployment platform for hospitality and service-sector recruitment.",
-    category: "web",
+    desc: "Easy-to-use manpower deployment platform for hospitality and service-sector recruitment.",
+    category: "platform",
+    label: "Manpower Platform",
     icon: "fas fa-laptop-code"
   },
   {
     title: "Staffing CRM App",
-    description: "A mobile-focused HR solution for candidate tracking, communication, and faster hiring workflows.",
-    category: "app",
-    icon: "fas fa-mobile-alt"
+    desc: "A mobile-focused HR platform for candidate tracking, communication, and faster hiring workflows.",
+    category: "hr",
+    label: "HR Solution",
+    icon: "fas fa-mobile-screen-button"
   },
   {
     title: "Analytics Dashboard",
-    description: "Visual KPI and compliance dashboard for monitoring recruitment, placement, and client activity.",
-    category: "ui",
+    desc: "Visual KPI tool combining workforce flow, recruitment cost control, and client analytics.",
+    category: "strategy",
+    label: "Strategy Dashboard",
     icon: "fas fa-chart-pie"
   },
   {
     title: "Partner Management System",
-    description: "A platform to maintain overseas partner communication, records, and manpower demand updates.",
-    category: "web",
+    desc: "A platform to maintain overseas partner communication, records, and manpower demand updates.",
+    category: "platform",
+    label: "Manpower Platform",
     icon: "fas fa-globe"
   },
   {
     title: "Recruitment Workflow App",
-    description: "Smart process solution for applicant screening, shortlisting, and manpower documentation.",
-    category: "app",
+    desc: "Smart process solution for applicant screening, shortlisting, and manpower documentation.",
+    category: "hr",
+    label: "HR Solution",
     icon: "fas fa-users"
   },
   {
     title: "Executive Strategy Panel",
-    description: "A leadership dashboard to review global partners, placement targets, and service growth.",
-    category: "ui",
+    desc: "A leadership dashboard to review global partners, placement targets, and service growth.",
+    category: "strategy",
+    label: "Strategy Dashboard",
     icon: "fas fa-chart-line"
   }
 ];
 
-const portfolioGrid = document.getElementById("portfolioGrid");
-const filterButtons = document.querySelectorAll(".filter-btn");
+const portGrid = document.getElementById("portGrid");
+const filterButtons = document.querySelectorAll(".flt-btn");
 
-function getCategoryLabel(category) {
-  switch (category) {
-    case "web":
-      return "Manpower Platform";
-    case "app":
-      return "HR Solution";
-    case "ui":
-      return "Strategy Dashboard";
-    default:
-      return "Project";
-  }
+function getFilteredPortfolio() {
+  const activeButton = document.querySelector(".flt-btn.active");
+  const activeFilter = activeButton ? activeButton.getAttribute("data-filter") : "all";
+  return activeFilter === "all"
+    ? portfolioData
+    : portfolioData.filter(item => item.category === activeFilter);
 }
 
 function renderPortfolio(filter = "all") {
-  if (!portfolioGrid) return;
+  if (!portGrid) return;
 
-  const filteredItems =
-    filter === "all"
-      ? portfolioItems
-      : portfolioItems.filter((item) => item.category === filter);
+  const filtered = filter === "all"
+    ? portfolioData
+    : portfolioData.filter(item => item.category === filter);
 
-  portfolioGrid.innerHTML = filteredItems
-    .map(
-      (item) => `
-        <div class="portfolio-card" data-category="${item.category}">
-          <div class="portfolio-img">
-            <i class="${item.icon}"></i>
-          </div>
-          <div class="portfolio-info">
-            <h3>${item.title}</h3>
-            <p>${item.description}</p>
-            <span class="portfolio-tag">${getCategoryLabel(item.category)}</span>
-          </div>
-        </div>
-      `
-    )
-    .join("");
+  portGrid.innerHTML = filtered.map(item => `
+    <div class="port-card" data-category="${item.category}">
+      <div class="port-icon"><i class="${item.icon}"></i></div>
+      <div class="port-body">
+        <h3>${item.title}</h3>
+        <p>${item.desc}</p>
+        <span>${item.label}</span>
+      </div>
+    </div>
+  `).join("");
 
-  attachPortfolioEvents(filteredItems);
+  attachCardClicks();
 }
 
-if (filterButtons.length > 0) {
-  filterButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      filterButtons.forEach((btn) => btn.classList.remove("active"));
-      button.classList.add("active");
-
-      const filter = button.dataset.filter;
-
-      if (portfolioGrid) {
-        portfolioGrid.style.opacity = "0";
-        portfolioGrid.style.transform = "translateY(10px)";
-
-        setTimeout(() => {
-          renderPortfolio(filter);
-          portfolioGrid.style.opacity = "1";
-          portfolioGrid.style.transform = "translateY(0)";
-        }, 250);
-      }
-    });
+filterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    filterButtons.forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
+    renderPortfolio(button.getAttribute("data-filter"));
   });
-}
+});
 
-// ========== PORTFOLIO MODAL ==========
-const portfolioModal = document.getElementById("portfolioModal");
+renderPortfolio();
+
+/* PORTFOLIO MODAL */
+const modal = document.getElementById("portModal");
 const modalClose = document.getElementById("modalClose");
-const modalTitle = document.getElementById("modalTitle");
-const modalDescription = document.getElementById("modalDescription");
-const modalCategory = document.getElementById("modalCategory");
-const modalIcon = document.getElementById("modalIcon");
+const mIcon = document.getElementById("mIcon");
+const mTitle = document.getElementById("mTitle");
+const mDesc = document.getElementById("mDesc");
+const mCat = document.getElementById("mCat");
 
-function attachPortfolioEvents(items) {
-  const cards = document.querySelectorAll(".portfolio-card");
+function attachCardClicks() {
+  const cards = document.querySelectorAll(".port-card");
+  const activeItems = getFilteredPortfolio();
 
   cards.forEach((card, index) => {
     card.addEventListener("click", () => {
-      const item = items[index];
-      openModal(item);
+      const item = activeItems[index];
+      if (!item) return;
+
+      mIcon.innerHTML = `<i class="${item.icon}"></i>`;
+      mTitle.textContent = item.title;
+      mDesc.textContent = item.desc;
+      mCat.textContent = item.label;
+      modal.classList.add("show");
     });
   });
 }
 
-function openModal(item) {
-  if (!portfolioModal || !modalTitle || !modalDescription || !modalCategory || !modalIcon) return;
-
-  modalTitle.textContent = item.title;
-  modalDescription.textContent = item.description;
-  modalCategory.textContent = getCategoryLabel(item.category);
-  modalIcon.innerHTML = `<i class="${item.icon}"></i>`;
-  portfolioModal.classList.add("show");
-  document.body.style.overflow = "hidden";
-}
-
-function closeModal() {
-  if (!portfolioModal) return;
-  portfolioModal.classList.remove("show");
-  document.body.style.overflow = "";
-}
-
 if (modalClose) {
-  modalClose.addEventListener("click", closeModal);
+  modalClose.addEventListener("click", () => {
+    modal.classList.remove("show");
+  });
 }
 
-if (portfolioModal) {
-  portfolioModal.addEventListener("click", (e) => {
-    if (e.target === portfolioModal) {
-      closeModal();
+if (modal) {
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.remove("show");
     }
   });
 }
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    closeModal();
-  }
-});
-
-// ========== WHATSAPP CONTACT FORM ==========
+/* WHATSAPP FORM */
 const contactForm = document.getElementById("contactForm");
 
 if (contactForm) {
   contactForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const name = document.getElementById("name")?.value.trim() || "";
-    const email = document.getElementById("email")?.value.trim() || "";
-    const phone = document.getElementById("phone")?.value.trim() || "";
-    const subject = document.getElementById("subject")?.value.trim() || "";
-    const message = document.getElementById("message")?.value.trim() || "";
+    const name = document.getElementById("fname").value.trim();
+    const email = document.getElementById("femail").value.trim();
+    const phone = document.getElementById("fphone").value.trim();
+    const subject = document.getElementById("fsubject").value.trim();
+    const message = document.getElementById("fmessage").value.trim();
 
     const whatsappNumber = "8801827843758";
 
-    const text = `Hello Belal Hossain,
+    const whatsappText =
+      `Name: ${name}%0A` +
+      `Email: ${email}%0A` +
+      `Phone: ${phone}%0A` +
+      `Subject: ${subject}%0A` +
+      `Message: ${message}`;
 
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Subject: ${subject}
-
-Message:
-${message}`;
-
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
-    window.open(url, "_blank");
-
-    contactForm.reset();
+    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${whatsappText}`;
+    window.open(whatsappURL, "_blank");
   });
 }
-
-// ========== OPTIONAL CV BUTTON ALERT ==========
-const downloadCvBtn = document.getElementById("downloadCvBtn");
-
-if (downloadCvBtn) {
-  downloadCvBtn.addEventListener("click", () => {
-    console.log("CV download button clicked");
-  });
-}
-
-// ========== INITIAL LOAD ==========
-renderPortfolio();

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Belal Hossain | CEO – Global Manpower Strategist</title>
 
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
@@ -18,263 +18,346 @@
     <nav id="navMenu">
       <a href="#home">Home</a>
       <a href="#about">About</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#group-structure">Group</a>
       <a href="#skills">Skills</a>
       <a href="#portfolio">Portfolio</a>
       <a href="#contact">Contact</a>
     </nav>
 
-    <div class="social-icons">
-      <a href="https://www.linkedin.com/in/belal-hossain-a49198236/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-      <a href="https://www.facebook.com/gazi.arman.5099" target="_blank"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://www.instagram.com/gazi.arman.5099?igsh=eTZhN3F0bGpienU1&utm_source=qr" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://wa.me/8801827843758" target="_blank"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://x.com/arman64843457?s=11" target="_blank"><i class="fab fa-x-twitter"></i></a>
+    <div class="hdr-social">
+      <a href="https://www.linkedin.com/in/belal-hossain-a49198236/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://www.facebook.com/gazi.arman.5099" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.instagram.com/gazi.arman.5099" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://wa.me/8801827843758" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://x.com/arman64843457" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
     </div>
 
-    <button id="menuToggle" aria-label="Menu">
-      <i class="fas fa-bars"></i>
-    </button>
+    <button id="menuToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
   </header>
 
-  <!-- MAIN -->
-  <main>
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-grid-lines"></div>
 
-    <!-- HERO -->
-    <section id="home" class="hero split">
+    <div class="hero-inner">
       <div class="hero-text">
-        <div class="greet">HELLO, I'M</div>
-        <h1>Belal <span>Hossain</span></h1>
+        <div class="hero-tag">
+          <i class="fas fa-crown"></i> CEO · Al-Insaniyat Overseas · RL-2504
+        </div>
+
+        <h1 class="hero-name">
+          <span class="name-word dark-name">
+            <span>B</span><span>e</span><span>l</span><span>a</span><span>l</span>
+          </span>
+          <span class="name-word blue-name">
+            <span>H</span><span>o</span><span>s</span><span>s</span><span>a</span><span>i</span><span>n</span>
+          </span>
+        </h1>
+
         <p>
-          CEO | Al-Insaniyat Overseas (RL-2504) | Global Manpower Architect <br />
-          Building trusted workforce solutions from Bangladesh to GCC and beyond.
+          Global Manpower Architect — building trusted workforce solutions from Bangladesh to GCC and beyond.
         </p>
 
         <div class="hero-badges">
-          <span><i class="fas fa-hand-holding-dollar"></i> 10,000/- +</span>
-          <span><i class="fas fa-globe"></i> 50+ Global Partners</span>
+          <div class="h-badge"><i class="fas fa-hand-holding-dollar"></i> 10,000/- + Service Value</div>
+          <div class="h-badge"><i class="fas fa-globe"></i> 50+ Global Partners</div>
         </div>
 
-        <div class="btn-group">
-          <a href="#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Hire Me</a>
+        <div class="btn-row">
+          <a href="#contact" class="btn btn-gold"><i class="fas fa-paper-plane"></i> Hire Me</a>
           <a href="#portfolio" class="btn btn-outline"><i class="fas fa-briefcase"></i> My Works</a>
         </div>
       </div>
 
-      <div class="hero-image">
-        <!-- Put your real image inside images folder -->
-        <img src="images/belal.jpg" alt="Belal Hossain - CEO" loading="lazy" />
-      </div>
-    </section>
+      <div class="hero-img-wrap">
+        <div class="hero-img-frame">
+          <img
+            src="images/belal.jpg"
+            alt="Belal Hossain"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="fallback-portrait">
+            <i class="fas fa-user-tie"></i>
+            <p>Photo coming soon</p>
+          </div>
+        </div>
 
-    <!-- FEATURES -->
-    <section class="features">
-      <div class="feature-card">
-        <i class="fas fa-crown"></i>
+        <div class="hero-float-badge">
+          <div class="hero-dot"></div>
+          <i class="fas fa-globe-asia"></i>
+          <div>
+            <div class="float-title">Available Globally</div>
+            <div class="float-sub">GCC · Asia · Europe</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fas fa-crown"></i></div>
+      <div>
         <h3>Strategic Leadership</h3>
         <p>Leading international manpower solutions with vision, trust, and operational excellence.</p>
       </div>
+    </div>
 
-      <div class="feature-card">
-        <i class="fas fa-globe-asia"></i>
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fas fa-globe-asia"></i></div>
+      <div>
         <h3>Global Network</h3>
         <p>Trusted recruitment partnerships across GCC and international labor markets.</p>
       </div>
+    </div>
 
-      <div class="feature-card">
-        <i class="fas fa-headset"></i>
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fas fa-headset"></i></div>
+      <div>
         <h3>Client Support</h3>
-        <p>Reliable communication, documentation support, and strong long-term business relationships.</p>
+        <p>Reliable communication, documentation support, and long-term business relationships.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ABOUT -->
-    <section id="about">
-      <div class="section-sub">ABOUT ME</div>
-      <h2 class="section-title">Leading with vision, service & integrity</h2>
-
-      <div class="about-grid">
-        <div class="about-left">
-          <div class="about-img">
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-left">
+        <div class="about-img-box">
+          <img
+            src="images/belal.jpg"
+            alt="Belal Hossain"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="about-fallback">
             <i class="fas fa-user-tie"></i>
           </div>
-          <div class="about-badge"><i class="fas fa-star"></i> Trusted Overseas Recruiter</div>
         </div>
 
-        <div class="about-right">
-          <p>
-            I am Belal Hossain, working to create dependable overseas manpower opportunities through
-            Al-Insaniyat Overseas. My focus is on client trust, quality workforce supply, and building
-            lasting partnerships with organizations around the world.
-          </p>
-
-          <div class="bio-details">
-            <div class="bio-item"><label>Name</label> Belal Hossain</div>
-            <div class="bio-item"><label>Location</label> Banani, Dhaka, Bangladesh</div>
-            <div class="bio-item"><label>Email 1</label> admin@alinsaniyatoverseas.com</div>
-            <div class="bio-item"><label>Email 2</label> bharman58@yahoo.com</div>
-            <div class="bio-item"><label>Phone</label> +8801827843758</div>
-            <div class="bio-item"><label>License</label> RL-2504 · Al-Insaniyat Overseas</div>
-          </div>
-
-          <!-- Real CV button -->
-          <a href="Profile.pdf/BelalHossain_CV.pdf" class="btn btn-primary" download>
-            <i class="fas fa-download"></i> Download CV
-          </a>
+        <div class="trust-badge">
+          <i class="fas fa-shield-halved"></i> Licensed Overseas Recruiter · RL-2504
         </div>
       </div>
-    </section>
 
-    <!-- STATS -->
-    <section class="stats">
-      <div class="stat-card">
-        <div class="stat-number">50+</div>
-        <div class="stat-label">Global Partners</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">10,000/-+</div>
-        <div class="stat-label">Starting Service Value</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">4</div>
-        <div class="stat-label">GCC Nations Served</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">98%</div>
-        <div class="stat-label">Client Satisfaction</div>
-      </div>
-    </section>
+      <div class="about-right">
+        <div class="sec-tag">About Me</div>
+        <h2 class="sec-title">Leading with <span>vision</span>, service &amp; integrity</h2>
+        <div class="divider"></div>
 
-    <!-- SKILLS -->
-    <section id="skills">
-      <div class="section-sub">MY EXPERTISE</div>
-      <h2 class="section-title">Core strengths & leadership excellence</h2>
+        <p>
+          I am Belal Hossain, CEO of Al-Insaniyat Overseas (RL-2504), working to create dependable overseas manpower opportunities. My focus is on client trust, quality workforce supply, and building lasting partnerships with organizations around the world.
+        </p>
 
-      <div class="skills-container">
-        <div class="skill-col">
-          <div class="skill-item">
-            <div class="skill-info"><span>Strategic Leadership</span><span>96%</span></div>
-            <div class="progress-bar"><div class="progress-fill" data-width="96"></div></div>
-          </div>
-
-          <div class="skill-item">
-            <div class="skill-info"><span>Global Recruitment Planning</span><span>92%</span></div>
-            <div class="progress-bar"><div class="progress-fill" data-width="92"></div></div>
-          </div>
-
-          <div class="skill-item">
-            <div class="skill-info"><span>Client Relationship Management</span><span>94%</span></div>
-            <div class="progress-bar"><div class="progress-fill" data-width="94"></div></div>
-          </div>
+        <div class="bio-grid">
+          <div class="bio-row"><label>Name</label><span>Belal Hossain</span></div>
+          <div class="bio-row"><label>Location</label><span>Banani, Dhaka, Bangladesh</span></div>
+          <div class="bio-row"><label>Email</label><span>admin@alinsaniyatoverseas.com</span></div>
+          <div class="bio-row"><label>Alt Email</label><span>bharman58@yahoo.com</span></div>
+          <div class="bio-row"><label>Phone</label><span>+8801827843758</span></div>
+          <div class="bio-row"><label>License</label><span>RL-2504 · Al-Insaniyat Overseas</span></div>
         </div>
 
-        <div class="skill-col">
-          <div class="skill-item">
-            <div class="skill-info"><span>Manpower Deployment</span><span>90%</span></div>
-            <div class="progress-bar"><div class="progress-fill" data-width="90"></div></div>
-          </div>
+        <a href="Profile.pdf/BelalHossain_CV.pdf" class="btn btn-gold">
+          <i class="fas fa-download"></i> Download CV
+        </a>
+      </div>
+    </div>
+  </section>
 
-          <div class="skill-item">
-            <div class="skill-info"><span>Documentation & Compliance</span><span>88%</span></div>
-            <div class="progress-bar"><div class="progress-fill" data-width="88"></div></div>
-          </div>
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements" class="premium-stats">
+    <div class="sec-tag center-tag">Achievements</div>
+    <h2 class="sec-title center-title">Trusted growth in <span>numbers</span></h2>
+    <div class="divider center-divider"></div>
 
-          <div class="skill-item">
-            <div class="skill-info"><span>Business Administration</span><span>91%</span></div>
-            <div class="progress-bar"><div class="progress-fill" data-width="91"></div></div>
-          </div>
+    <div class="stats-grid-premium">
+      <div class="counter-card">
+        <div class="counter-icon"><i class="fas fa-user-check"></i></div>
+        <h3 class="counter-number" data-target="15000" data-suffix="+">0</h3>
+        <p>Successful Recruitments</p>
+      </div>
+
+      <div class="counter-card">
+        <div class="counter-icon"><i class="fas fa-diagram-project"></i></div>
+        <h3 class="counter-number" data-target="500" data-suffix="+">0</h3>
+        <p>Projects Completed</p>
+      </div>
+
+      <div class="counter-card">
+        <div class="counter-icon"><i class="fas fa-earth-asia"></i></div>
+        <h3 class="counter-number" data-target="200" data-suffix="+">0</h3>
+        <p>Global Clients</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP STRUCTURE -->
+  <section id="group-structure" class="group-structure">
+    <div class="sec-tag center-tag">Group Structure</div>
+    <h2 class="sec-title center-title">Al-Insaniyat Group <span>Ecosystem</span></h2>
+    <div class="divider center-divider"></div>
+
+    <p class="group-subtitle">
+      A structured business ecosystem with individual branding and strong international service identity.
+    </p>
+
+    <div class="group-grid">
+      <div class="group-card">
+        <div class="group-logo logo-blue"><i class="fas fa-plane-departure"></i></div>
+        <h3>Al-Insaniyat Overseas</h3>
+      </div>
+
+      <div class="group-card">
+        <div class="group-logo logo-cyan"><i class="fas fa-graduation-cap"></i></div>
+        <h3>Training Centre</h3>
+      </div>
+
+      <div class="group-card">
+        <div class="group-logo logo-sky"><i class="fas fa-suitcase-rolling"></i></div>
+        <h3>Insaniyat Holidays</h3>
+      </div>
+
+      <div class="group-card">
+        <div class="group-logo logo-gold"><i class="fas fa-gem"></i></div>
+        <h3>Al-Brown Pearl</h3>
+      </div>
+
+      <div class="group-card">
+        <div class="group-logo logo-indigo"><i class="fas fa-handshake-angle"></i></div>
+        <h3>Raka International</h3>
+      </div>
+
+      <div class="group-card">
+        <div class="group-logo logo-teal"><i class="fas fa-briefcase"></i></div>
+        <h3>Ambe International Consultancy</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="sec-tag">My Expertise</div>
+    <h2 class="sec-title">Core strengths &amp; <span>leadership excellence</span></h2>
+    <div class="divider"></div>
+
+    <div class="skills-cols">
+      <div>
+        <div class="skill-item">
+          <div class="skill-head"><strong>Strategic Leadership</strong><span>96%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-w="96"></div></div>
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-head"><strong>Global Recruitment Planning</strong><span>92%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-w="92"></div></div>
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-head"><strong>Client Relationship Management</strong><span>94%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-w="94"></div></div>
         </div>
       </div>
-    </section>
 
-    <!-- PORTFOLIO -->
-    <section id="portfolio">
-      <div class="section-sub">RECENT PROJECTS</div>
-      <h2 class="section-title">Dynamic manpower solutions & business platforms</h2>
+      <div>
+        <div class="skill-item">
+          <div class="skill-head"><strong>Manpower Deployment</strong><span>90%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-w="90"></div></div>
+        </div>
 
-      <div class="portfolio-filters">
-        <button class="filter-btn active" data-filter="all">All Projects</button>
-        <button class="filter-btn" data-filter="web">Manpower Platforms</button>
-        <button class="filter-btn" data-filter="app">HR Solutions</button>
-        <button class="filter-btn" data-filter="ui">Strategy Dashboards</button>
+        <div class="skill-item">
+          <div class="skill-head"><strong>Documentation &amp; Compliance</strong><span>88%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-w="88"></div></div>
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-head"><strong>Business Administration</strong><span>91%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-w="91"></div></div>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <div class="portfolio-grid" id="portfolioGrid"></div>
-    </section>
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <div class="sec-tag">Recent Projects</div>
+    <h2 class="sec-title">Dynamic manpower solutions &amp; <span>business platforms</span></h2>
+    <div class="divider"></div>
 
-    <!-- CONTACT -->
-    <section id="contact">
-      <div class="section-sub">GET IN TOUCH</div>
-      <h2 class="section-title">Let’s build global workforce partnerships</h2>
+    <div class="port-filters" id="portFilters">
+      <button class="flt-btn active" data-filter="all">All Projects</button>
+      <button class="flt-btn" data-filter="platform">Manpower Platforms</button>
+      <button class="flt-btn" data-filter="hr">HR Solutions</button>
+      <button class="flt-btn" data-filter="strategy">Strategy Dashboards</button>
+    </div>
 
-      <div class="contact-wrap">
-        <div class="map">
+    <div class="port-grid" id="portGrid"></div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="sec-tag">Get In Touch</div>
+    <h2 class="sec-title">Let's build <span>global workforce</span> partnerships</h2>
+    <div class="divider"></div>
+
+    <div class="contact-grid">
+      <div>
+        <div class="contact-map">
           <iframe
-            src="https://maps.google.com/maps?q=Banani%20Dhaka%20Bangladesh&t=&z=13&ie=UTF8&iwloc=&output=embed"
-            width="100%"
-            height="100%"
-            style="border:0; border-radius: 1.5rem;"
-            allowfullscreen=""
+            src="https://maps.google.com/maps?q=Banani+Dhaka+Bangladesh&t=&z=13&ie=UTF8&iwloc=&output=embed"
+            allowfullscreen
             loading="lazy">
           </iframe>
         </div>
 
-        <form class="contact-form" id="contactForm">
-          <div class="form-row">
-            <div class="form-group">
-              <input type="text" id="name" name="name" placeholder="Full Name" required />
-            </div>
-            <div class="form-group">
-              <input type="email" id="email" name="email" placeholder="Email Address" required />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <input type="text" id="phone" name="phone" placeholder="Phone" />
-            </div>
-            <div class="form-group">
-              <input type="text" id="subject" name="subject" placeholder="Subject" />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <textarea id="message" name="message" rows="5" placeholder="Your message..." required></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-submit">
-            <i class="fab fa-whatsapp"></i> Send via WhatsApp
-          </button>
-
-          <div class="contact-extra">
-            <p><i class="fas fa-envelope"></i> admin@alinsaniyatoverseas.com</p>
-            <p><i class="fas fa-envelope-open"></i> bharman58@yahoo.com</p>
-            <p><i class="fas fa-phone"></i> +8801827843758</p>
-          </div>
-        </form>
+        <div class="contact-info">
+          <div class="c-info-row"><i class="fas fa-envelope"></i> admin@alinsaniyatoverseas.com</div>
+          <div class="c-info-row"><i class="fas fa-envelope-open"></i> bharman58@yahoo.com</div>
+          <div class="c-info-row"><i class="fas fa-phone"></i> +8801827843758</div>
+          <div class="c-info-row"><i class="fas fa-location-dot"></i> Banani, Dhaka, Bangladesh</div>
+        </div>
       </div>
-    </section>
-  </main>
+
+      <form class="cform" id="contactForm">
+        <div class="frow">
+          <input type="text" id="fname" placeholder="Full Name" required />
+          <input type="email" id="femail" placeholder="Email Address" required />
+        </div>
+
+        <div class="frow">
+          <input type="text" id="fphone" placeholder="Phone" />
+          <input type="text" id="fsubject" placeholder="Subject" />
+        </div>
+
+        <textarea id="fmessage" placeholder="Your message..." required></textarea>
+
+        <button type="submit" class="btn btn-gold btn-submit">
+          <i class="fab fa-whatsapp"></i> Send via WhatsApp
+        </button>
+      </form>
+    </div>
+  </section>
 
   <!-- FOOTER -->
-<footer>
-  <p>
-    <i class="fas fa-crown"></i>
-    © 2025 Belal Hossain – Al-Insaniyat Overseas. All rights reserved.
-    <br>
-    Design by Sarna 💙
-  </p>
-</footer>
+  <footer>
+    <p>
+      <i class="fas fa-crown"></i>
+      © 2025 <span>Belal Hossain</span> – Al-Insaniyat Overseas. All rights reserved.
+      | Design by <span>Sarna 💙</span>
+    </p>
+  </footer>
 
-  <!-- PORTFOLIO MODAL -->
-  <div class="modal" id="portfolioModal">
-    <div class="modal-content">
+  <!-- MODAL -->
+  <div class="modal" id="portModal">
+    <div class="modal-box">
       <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
-      <div class="modal-icon" id="modalIcon"></div>
-      <h3 id="modalTitle"></h3>
-      <p id="modalDescription"></p>
-      <div class="modal-meta">
-        <span id="modalCategory"></span>
-      </div>
+      <div class="modal-icon" id="mIcon"></div>
+      <h3 id="mTitle"></h3>
+      <p id="mDesc"></p>
+      <div><span class="modal-chip" id="mCat"></span></div>
     </div>
   </div>
 
